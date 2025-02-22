@@ -1,5 +1,14 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
+
+
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostStatusController;
@@ -7,9 +16,6 @@ use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\ReactionTypeController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\UserController;
-
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,3 +60,4 @@ Route::resources([
     'post-status'=>PostStatusController::class,
     'comments'=>CommentController::class
 ]);
+

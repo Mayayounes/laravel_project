@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Reply;
+use App\Http\Requests\StoreReplyRequest;
+use App\Http\Requests\UpdateReplyRequest;
+use App\Http\Resources\ReplyResource;
 
 class ReplyController extends Controller
 {
@@ -11,7 +14,8 @@ class ReplyController extends Controller
      */
     public function index()
     {
-        echo 'I am Reply Controller';
+        $replies_all = Reply::all();
+        return ReplyResource::collection($replies_all);
     }
 
     /**
@@ -25,7 +29,7 @@ class ReplyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreReplyRequest $request)
     {
         //
     }
@@ -33,15 +37,16 @@ class ReplyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Reply $reply)
     {
-        //
+        $reply_ = Reply::where('id','=',$reply->id)->first();
+        return ReplyResource::make($reply_);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Reply $reply)
     {
         //
     }
@@ -49,7 +54,7 @@ class ReplyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateReplyRequest $request, Reply $reply)
     {
         //
     }
@@ -57,7 +62,7 @@ class ReplyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Reply $reply)
     {
         //
     }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Comment;
+use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\UpdateCommentRequest;
+use App\Http\Resources\CommentResource;
 
 class CommentController extends Controller
 {
@@ -11,7 +14,9 @@ class CommentController extends Controller
      */
     public function index()
     {
-        echo 'I am Comment Controller';
+        $all_comments = Comment::all();
+        $comments = CommentResource::collection($all_comments);
+        return $comments;
     }
 
     /**
@@ -25,7 +30,7 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCommentRequest $request)
     {
         //
     }
@@ -33,15 +38,17 @@ class CommentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Comment $comment)
     {
-        //
+        $comments_all = Comment::where('id','=', $comment->id)->first();
+        $comments = CommentResource::make($comments_all);
+        return $comments;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Comment $comment)
     {
         //
     }
@@ -49,7 +56,7 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCommentRequest $request, Comment $comment)
     {
         //
     }
@@ -57,7 +64,7 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Comment $comment)
     {
         //
     }
