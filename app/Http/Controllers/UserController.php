@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use PHPUnit\Event\TestSuite\Loaded;
 
 class UserController extends Controller
 {
@@ -16,7 +17,8 @@ class UserController extends Controller
     {
         $users = User::all();
         $ready_users = UserResource::collection($users);
-        return $ready_users;
+        // return $ready_users;
+        return view('users.index', compact('ready_users'));
     }
 
     /**
@@ -40,9 +42,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $users_with_posts_all = User::with('posts')->where('id','=', $user->id)->first();
-        $users_with_posts = UserResource::make($users_with_posts_all);
-        return $users_with_posts;
+        $user = $user->load('posts');
+        $user = UserResource::make($user);
+        return view('users.show', compact('user'));
     }
 
     /**

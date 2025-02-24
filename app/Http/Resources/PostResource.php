@@ -20,9 +20,10 @@ class PostResource extends JsonResource
             'id' => $this->id ,
             'Post title' => $this->title,
             'Body' => $this->body,
-            'Post Status' => PostStatusResource::make($this->post_status),
+            'post_status' => PostStatusResource::make($this->post_status),
             'comments'=> CommentResource::collection($this -> comments),
             'reaction' => ReactionResource::collection($this ->reactions),
+            'user' => MiniUserResource::collection($this->user),
         ];
     }
 }

@@ -16,7 +16,8 @@ class PostController extends Controller
     {
         $posts = Post::all();
         $ready_posts= PostResource::collection($posts);
-        return $ready_posts;
+        // return $ready_posts;
+        return view('posts/index', compact('ready_posts'));
     }
 
     /**
@@ -40,8 +41,10 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post = Post::where('id', $post->id)->first();
-        return PostResource::make($post);
+        $post = $post->load('reactions');
+        $post = $post->load('comments');
+        $post = PostResource::make($post);
+        return view('posts.show', compact('post'));
     }
 
     /**
